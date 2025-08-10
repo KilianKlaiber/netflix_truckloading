@@ -1,4 +1,8 @@
-import math
+""" Distribute items among trucks
+A list of items with a particular weight must be distributed among truck, which
+may only carry a maximum weight such that a minimum number of trucks is used for
+carrying the items.
+"""
 
 
 def get_truck_items(item_weights: list[int], max_weight: int) -> list[int]:
@@ -31,13 +35,8 @@ def get_truck_items(item_weights: list[int], max_weight: int) -> list[int]:
     return truck_weights
 
 
-def main():
-    # Weight of the items to be loaded on trucks
-    item_weights = [4, 3, 3, 3, 2, 2, 2, 2]
-
-    # Maximum weight that each truck can carry
-    max_weight = 6
-
+def fast_distribution_of_items(item_weights: list[int], max_weight: int) -> list[list[int]]:
+    
     item_weights.sort(reverse=True)
 
     # List of lists, each list containing the items placed on a single truck.
@@ -48,8 +47,35 @@ def main():
         truck_weights = get_truck_items(item_weights, max_weight)
         trucks.append(truck_weights)
 
-    print(trucks)
+    return trucks
 
+
+def main():
+    
+    # Weight of the items to be loaded on trucks
+    item_weights = [4, 3, 3, 3, 2, 2, 2, 2]
+    total_weight = sum(item_weights)
+
+    # Maximum weight that each truck can carry
+    max_weight = 6
+    
+    trucks = fast_distribution_of_items(item_weights, max_weight)
+    
+    # Sort the list according to the weight carried by each truck
+    trucks.sort(key=sum)
+    lowest_weight = sum(trucks[0])
+    residual_weight = total_weight - lowest_weight
+    total_residual_capacity = (len(trucks)-1) * max_weight
+    unused_capacity = total_residual_capacity - residual_weight
+    
+    if lowest_weight > unused_capacity:
+        print(trucks)
+        return trucks
+    
+    else:
+        pass
+    
+    
 
 if __name__ == "__main__":
     main()
