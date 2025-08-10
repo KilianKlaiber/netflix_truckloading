@@ -24,6 +24,8 @@ def get_truck_items(item_weights: list[int], max_weight: int) -> list[int]:
 
     for weight in items_to_remove:
         item_weights.remove(weight)
+        
+    return truck_weights
 
 
 def main():
