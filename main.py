@@ -1,8 +1,11 @@
+import math
+
+
 def get_truck_items(item_weights: list[int], max_weight: int) -> list[int]:
     """Select items to be placed on one truck
 
     Args:
-        item_weights (list[int]): List of weights to be distributed on trucks
+        item_weights (list[int]): List of weights to be distributed on trucks sorted from heaviest to leightest
         max_weight (int): maximum weight that the truck can load
 
     Returns:
@@ -10,30 +13,25 @@ def get_truck_items(item_weights: list[int], max_weight: int) -> list[int]:
     """
 
     truck_weights = []
+    current_weight = 0
+    items_to_remove = []
 
-    first_weight = item_weights.pop(0)
+    for weight in item_weights:
+        if current_weight + weight <= max_weight:
+            truck_weights.append(weight)
+            current_weight += weight
+            items_to_remove.append(weight)
 
-    if first_weight > max_weight:
-        raise ValueError(
-            f"The item weights comprises a weight {first_weight}, which exceeds the maximum admissible weight {max_weight}"
-        )
-
-    truck_weights.append(first_weight)
-
-    for index, weight in enumerate(item_weights):
-        if sum(truck_weights) + weight <= max_weight:
-            next_weight = item_weights.pop(index)
-            truck_weights.append(next_weight)
-
-    return truck_weights
+    for weight in items_to_remove:
+        item_weights.remove(weight)
 
 
 def main():
     # Weight of the items to be loaded on trucks
-    item_weights = [10, 20, 30, 40, 50]
+    item_weights = [4, 3, 3, 3, 2, 2, 2, 2]
 
     # Maximum weight that each truck can carry
-    max_weight = 70
+    max_weight = 6
 
     item_weights.sort(reverse=True)
 
