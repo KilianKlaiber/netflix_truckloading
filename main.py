@@ -12,6 +12,9 @@ def get_truck_items(item_weights: list[int], max_weight: int) -> list[int]:
         list[int]: List of weights selected from the item_weights
     """
 
+    if item_weights[0] > max_weight:
+        ValueError("First item is heavier than maximum weight")
+    
     truck_weights = []
     current_weight = 0
     items_to_remove = []
